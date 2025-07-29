@@ -1,63 +1,43 @@
-name: Deploy Python app to Azure Web App - flaskapp-wb
+name: Build and deploy Python app to Azure Web App
 
 on:
-
-push:
-
-branches:
-
-- main # Trigger deployment on push to main
+  push:
+    branches:
+      - main
 
 jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
-build-and-deploy:
+    steps:
+    - name: Checkout GitHub Action
+      uses: actions/checkout@v4  
 
-runs-on: ubuntu-latest
+    - name: Set up Python
+      uses: actions/setup-python@v4  
 
-steps:
+      with:
+        python-version: '3.8'
 
-- name: Checkout code
+    - name: Install system dependencies
+      run: sudo apt-get update && sudo apt-get install -y unixodbc-dev g++
 
-uses: actions/checkout@v3
 
-- name: Set up Python
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-uses: actions/setup-python@v4
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v4  
+      with:
+        name: python-app
+        path: .
 
-with:
-
-python-version: '3.10'
-
-- name: Install system dependencies for pyodbc
-
-run: |
-
-sudo apt-get update
-
-sudo apt-get install -y unixodbc-dev gcc g++ python3-dev
-
-- name: Upgrade pip and setuptools
-
-run: |
-
-python -m pip install --upgrade pip setuptools wheel
-
-- name: Install Python dependencies
-
-run: |
-
-pip install -r requirements.txt
-
-- name: Deploy to Azure Web App
-
-uses: azure/webapps-deploy@v2
-
-with:
-
-app-name: flaskapp-wb
-
-slot-name: production
-
-publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-
-package: .
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: falaskapp-wb
+        slot-name: production
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+        package: .
