@@ -3,7 +3,7 @@ name: Deploy Python app to Azure Web App - flaskapp-wb
 on:
   push:
     branches:
-      - main  # Trigger deployment on push to main
+      - main  # Trigger on push to main branch
 
 jobs:
   build-and-deploy:
@@ -30,6 +30,12 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install -r requirements.txt
+
+      # ✅ This step fixes your current error
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
