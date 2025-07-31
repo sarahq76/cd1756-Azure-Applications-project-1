@@ -2,17 +2,17 @@
 
 ### Analyze, choose, and justify the appropriate resource option for deploying the app.
 
-I selected Azure App Service for deploying the CMS application because it simplifies the deployment process and removes the need for manual infrastructure management. It’s especially suitable for lightweight Flask applications like this one.
+Because Azure App Service streamlines the deployment process and eliminates the need for manual infrastructure management, I decided to use it to deploy the CMS application. For lightweight Flask applications like this one, it works particularly well.
 
-The integration with GitHub Actions made continuous deployment fast and straightforward, without the need to manually configure the server. App Service also provides native support for Python, environment variables, and built-in monitoring, which helped me stay focused on development instead of dealing with operational overhead.
+Continuous deployment was made quick and simple by the integration with GitHub Actions, which eliminated the need for manual server configuration. Additionally, App Service has built-in monitoring, environment variables, and native support for Python, all of which allowed me to concentrate on development rather than operational overhead.
 
-Additionally, App Service is a cost-effective solution for projects that don’t require deep customization of the underlying operating system.
+Furthermore, App Service is an affordable option for projects that don't call for extensive operating system customization.
 
 ---
 
 ### When I Might Switch to a VM
 
-There are certain scenarios where I would consider using a *Virtual Machine (VM)* instead:
+There are certain scenarios where I would consider using a VM instead:
 
 If the app needed *custom libraries or services* at the OS level that App Service doesn’t support.
 If I was working on a project with resource-heavy tasks, like real-time video processing or machine learning jobs.
